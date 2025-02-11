@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "readings",
+  "info": {
+    "singularName": "reading",
+    "pluralName": "readings",
+    "displayName": "Reading",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "body": {
+      "type": "richtext"
+    }
+  }
+}

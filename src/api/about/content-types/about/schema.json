@@ -24,15 +24,7 @@
         }
       }
     },
-    "description": {
-      "type": "text",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "body": {
+    "content": {
       "pluginOptions": {
         "i18n": {
           "localized": true

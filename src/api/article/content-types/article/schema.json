@@ -24,15 +24,6 @@
         }
       }
     },
-    "description": {
-      "type": "text",
-      "maxLength": 80,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
     "slug": {
       "type": "uid",
       "targetField": "title"
@@ -58,23 +49,25 @@
       "target": "api::category.category",
       "inversedBy": "articles"
     },
-    "body": {
+    "content": {
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       },
-      "type": "richtext"
+      "type": "richtext",
+      "required": true
     },
     "Media": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
       ],
-      "type": "media",
-      "multiple": true,
       "pluginOptions": {
         "i18n": {
           "localized": true

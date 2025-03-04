@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   db:
     image: postgres:latest
@@ -10,14 +9,14 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - blog_data:/var/lib/postgresql/data
+      - blog-data:/var/lib/postgresql/data
     env_file:
       - ".env"
     networks:
-      - blog-api
+      - blog
 volumes:
-  blog_data:
+  blog-data:
 networks:
-  blog-api:
-    name: blog-api
+  blog:
+    name: blog
     driver: bridge

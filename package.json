@@ -1,8 +1,8 @@
 {
-  "name": "blog-back",
+  "name": "blog-api",
   "version": "0.1.0",
   "private": true,
-  "description": "A Strapi application",
+  "description": "Blog made with Strapi",
   "scripts": {
     "build": "strapi build",
     "deploy": "strapi deploy",

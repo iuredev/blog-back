@@ -18,7 +18,7 @@
     "description": {
       "type": "text"
     },
-    "body": {
+    "content": {
       "type": "richtext"
     }
   }

@@ -32,7 +32,7 @@
       },
       "type": "text"
     },
-    "body": {
+    "content": {
       "pluginOptions": {
         "i18n": {
           "localized": true

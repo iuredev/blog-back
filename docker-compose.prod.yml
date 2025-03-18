@@ -1,5 +1,5 @@
 services:
-  app:
+  app-prod:
     build: .
     image: strapi/strapi:latest
     container_name: blog-api-prod
@@ -32,9 +32,9 @@ services:
     networks:
       - blog-prod
     depends_on:
-      db:
+      db-prod:
         condition: service_healthy
-  db:
+  db-prod:
     container_name: blog-db-prod
     image: postgres:latest
     environment:

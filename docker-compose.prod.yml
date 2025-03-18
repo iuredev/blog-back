@@ -1,0 +1,72 @@
+services:
+  app:
+    build: .
+    image: strapi/strapi:latest
+    container_name: blog-api-prod
+    environment:
+      HOST: ${HOST}
+      PORT: ${PORT}
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_SSL: ${DATABASE_SSL}
+      DATABASE_FILENAME: ${DATABASE_FILENAME}
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./config:/app/config
+      - ./api:/app/api
+      - ./extensions:/app/extensions
+      - ./public:/app/public
+      - ./package.json:/app/package.json
+      - ./yarn.lock:/app/yarn.lock
+    env_file:
+      - ".env"
+    networks:
+      - blog
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    container_name: blog-db-prod
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    expose:
+      - ${DATABASE_PORT}
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+    volumes:
+      - data:/var/lib/postgresql/data
+    env_file:
+      - ".env"
+    networks:
+      - blog
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-U",
+          "${DATABASE_USERNAME}",
+          "-d",
+          "${DATABASE_NAME}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+networks:
+  blog:
+    name: blog
+    driver: bridge
+volumes:
+  data:

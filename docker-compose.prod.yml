@@ -30,7 +30,7 @@ services:
     env_file:
       - ".env"
     networks:
-      - blog
+      - blog-prod
     depends_on:
       db:
         condition: service_healthy

@@ -50,7 +50,7 @@ services:
     env_file:
       - ".env"
     networks:
-      - blog
+      - blog-prod
     healthcheck:
       test:
         [
@@ -65,8 +65,8 @@ services:
       timeout: 5s
       retries: 5
 networks:
-  blog:
-    name: blog
+  blog-prod:
+    name: blog-prod
     driver: bridge
 volumes:
   data:

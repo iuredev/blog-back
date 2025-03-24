@@ -58,7 +58,7 @@
       "type": "richtext",
       "required": true
     },
-    "Media": {
+    "media": {
       "type": "media",
       "multiple": true,
       "required": false,
@@ -73,6 +73,9 @@
           "localized": true
         }
       }
+    },
+    "description": {
+      "type": "text"
     }
   }
 }

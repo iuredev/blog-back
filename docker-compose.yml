@@ -34,6 +34,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: always
   db:
     container_name: blog-db
     image: postgres:latest
@@ -64,6 +65,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: always
 networks:
   blog:
     name: blog

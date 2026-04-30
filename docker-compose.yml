@@ -21,12 +21,6 @@ services:
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - ./config:/app/config
-      - ./api:/app/api
-      - ./extensions:/app/extensions
-      - ./public:/app/public
-      - ./package.json:/app/package.json
-      - ./yarn.lock:/app/yarn.lock
       - strapi-uploads:/app/public/uploads
     env_file:
       - ".env"

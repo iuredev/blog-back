@@ -27,6 +27,7 @@ services:
       - ./public:/app/public
       - ./package.json:/app/package.json
       - ./yarn.lock:/app/yarn.lock
+      - strapi-uploads:/app/public/uploads
     env_file:
       - ".env"
     networks:
@@ -70,3 +71,4 @@ networks:
     driver: bridge
 volumes:
   data:
+  strapi-uploads:

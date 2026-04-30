@@ -1,8 +1,8 @@
 services:
-  app-prod:
+  app:
     build: .
     image: strapi/strapi:latest
-    container_name: blog-api-prod
+    container_name: blog-api
     environment:
       HOST: ${HOST}
       PORT: ${PORT}
@@ -12,7 +12,7 @@ services:
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
       DATABASE_CLIENT: ${DATABASE_CLIENT}
       DATABASE_HOST: ${DATABASE_HOST}
-      DATABASE_PORT: 5432
+      DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
@@ -30,26 +30,27 @@ services:
     env_file:
       - ".env"
     networks:
-      - blog-prod
+      - blog
     depends_on:
-      db-prod:
+      db:
         condition: service_healthy
-    restart: always
-  db-prod:
-    container_name: blog-db-prod
+  db:
+    container_name: blog-db
     image: postgres:latest
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    expose:
+      - ${DATABASE_PORT}
     ports:
-      - "${DATABASE_PORT}:5432"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     volumes:
       - data:/var/lib/postgresql/data
     env_file:
       - ".env"
     networks:
-      - blog-prod
+      - blog
     healthcheck:
       test:
         [
@@ -63,10 +64,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    restart: always
 networks:
-  blog-prod:
-    name: blog-prod
+  blog:
+    name: blog
     driver: bridge
 volumes:
   data:

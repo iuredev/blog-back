@@ -1,8 +1,8 @@
 services:
-  app:
+  app-prod:
     build: .
-    image: strapi/strapi:latest
-    container_name: blog-api
+    image: strapi:latest
+    container_name: blog-api-prod
     environment:
       HOST: ${HOST}
       PORT: ${PORT}
@@ -30,19 +30,18 @@ services:
     env_file:
       - ".env"
     networks:
-      - blog
+      - blog-prod
     depends_on:
-      db:
+      db-prod:
         condition: service_healthy
-  db:
-    container_name: blog-db
-    image: postgres:latest
+    restart: always
+  db-prod:
+    container_name: blog-db-prod
+    image: postgres:17.0-alpine
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    expose:
-      - ${DATABASE_PORT}
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
     volumes:
@@ -50,7 +49,7 @@ services:
     env_file:
       - ".env"
     networks:
-      - blog
+      - blog-prod
     healthcheck:
       test:
         [
@@ -64,9 +63,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: always
 networks:
-  blog:
-    name: blog
+  blog-prod:
+    name: blog-prod
     driver: bridge
 volumes:
   data:

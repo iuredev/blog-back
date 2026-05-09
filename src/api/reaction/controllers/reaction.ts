@@ -6,6 +6,7 @@ const REACTION_TYPES = ['like', 'dislike', 'love', 'fire', 'mindblown', 'sad'];
 function getIpHash(ctx: any): string {
   const ip =
     (ctx.request.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
+    (ctx.request.headers['x-real-ip'] as string)?.trim() ||
     ctx.request.ip ||
     'unknown';
   const salt = process.env.IP_HASH_SALT || 'blog-reactions-salt';
@@ -60,6 +61,8 @@ export default factories.createCoreController('api::reaction.reaction', ({ strap
     });
 
     const ipHash = getIpHash(ctx);
+    const debugIp = (ctx.request.headers['x-forwarded-for'] as string) || (ctx.request.headers['x-real-ip'] as string) || ctx.request.ip;
+    strapi.log.info(`[reactions] ip=${debugIp} hash=${ipHash.substring(0, 8)}...`);
     const userReactions = reactions.filter((r: any) => r.ipHash === ipHash).map((r: any) => r.type);
 
     ctx.body = { counts, userReactions };

@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reactions",
+  "info": {
+    "singularName": "reaction",
+    "pluralName": "reactions",
+    "displayName": "Reaction"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "articleDocumentId": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["like", "dislike", "love", "fire", "mindblown", "sad"],
+      "required": true
+    },
+    "ipHash": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

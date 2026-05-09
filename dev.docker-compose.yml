@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    image: strapi/strapi:latest
+    image: strapi:latest
     container_name: blog-api
     environment:
       HOST: ${HOST}
@@ -11,8 +11,8 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
       DATABASE_CLIENT: ${DATABASE_CLIENT}
-      DATABASE_HOST: ${DATABASE_HOST}
-      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_HOST: db
+      DATABASE_PORT: 5433
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
@@ -36,15 +36,15 @@ services:
         condition: service_healthy
   db:
     container_name: blog-db
-    image: postgres:latest
+    image: postgres:17-alpine
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     expose:
-      - ${DATABASE_PORT}
+      - "5432"
     ports:
-      - "${DATABASE_PORT}:${DATABASE_PORT}"
+      - "5433:5432"
     volumes:
       - data:/var/lib/postgresql/data
     env_file:

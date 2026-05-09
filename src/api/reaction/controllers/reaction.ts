@@ -1,30 +1,19 @@
 import { factories } from '@strapi/strapi';
-import crypto from 'crypto';
 
 const REACTION_TYPES = ['like', 'dislike', 'love', 'fire', 'mindblown', 'sad'];
 
-function getIpHash(ctx: any): string {
-  const ip =
-    (ctx.request.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
-    (ctx.request.headers['x-real-ip'] as string)?.trim() ||
-    ctx.request.ip ||
-    'unknown';
-  const salt = process.env.IP_HASH_SALT || 'blog-reactions-salt';
-  return crypto.createHash('sha256').update(ip + salt).digest('hex');
-}
-
 export default factories.createCoreController('api::reaction.reaction', ({ strapi }) => ({
   async toggle(ctx) {
-    const { articleDocumentId, type } = ctx.request.body as { articleDocumentId: string; type: string };
+    const { articleDocumentId, type, visitorId } = ctx.request.body as { articleDocumentId: string; type: string; visitorId: string };
 
-    if (!articleDocumentId || !type) {
-      return ctx.badRequest('articleDocumentId and type are required');
+    if (!articleDocumentId || !type || !visitorId) {
+      return ctx.badRequest('articleDocumentId, type and visitorId are required');
     }
     if (!REACTION_TYPES.includes(type)) {
       return ctx.badRequest(`type must be one of: ${REACTION_TYPES.join(', ')}`);
     }
 
-    const ipHash = getIpHash(ctx);
+    const ipHash = visitorId;
 
     const existing = await strapi.db.query('api::reaction.reaction').findMany({
       where: { articleDocumentId, type, ipHash },
@@ -46,6 +35,7 @@ export default factories.createCoreController('api::reaction.reaction', ({ strap
 
   async counts(ctx) {
     const { articleDocumentId } = ctx.params as { articleDocumentId: string };
+    const { visitorId } = ctx.query as { visitorId?: string };
 
     if (!articleDocumentId) return ctx.badRequest('articleDocumentId is required');
 
@@ -60,10 +50,10 @@ export default factories.createCoreController('api::reaction.reaction', ({ strap
       counts[r.type] = (counts[r.type] || 0) + 1;
     });
 
-    const ipHash = getIpHash(ctx);
-    const debugIp = (ctx.request.headers['x-forwarded-for'] as string) || (ctx.request.headers['x-real-ip'] as string) || ctx.request.ip;
-    strapi.log.info(`[reactions] ip=${debugIp} hash=${ipHash.substring(0, 8)}...`);
-    const userReactions = reactions.filter((r: any) => r.ipHash === ipHash).map((r: any) => r.type);
+    const ipHash = visitorId || null;
+    const userReactions = ipHash
+      ? reactions.filter((r: any) => r.ipHash === ipHash).map((r: any) => r.type)
+      : [];
 
     ctx.body = { counts, userReactions };
   },

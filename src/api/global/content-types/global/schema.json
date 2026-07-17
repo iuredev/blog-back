@@ -22,6 +22,12 @@
       "multiple": false,
       "required": false,
       "allowedTypes": ["images"]
+    },
+    "currentFocus": {
+      "type": "text"
+    },
+    "currentFocusUpdatedAt": {
+      "type": "date"
     }
   }
 }

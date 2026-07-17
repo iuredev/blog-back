@@ -28,6 +28,9 @@
     },
     "currentFocusUpdatedAt": {
       "type": "date"
+    },
+    "skills": {
+      "type": "json"
     }
   }
 }

@@ -640,7 +640,9 @@ export interface ApiReactionReaction extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    type: Schema.Attribute.Enumeration<['like', 'love', 'fire', 'mindblown']> &
+    type: Schema.Attribute.Enumeration<
+      ['like', 'dislike', 'love', 'fire', 'mindblown', 'sad']
+    > &
       Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

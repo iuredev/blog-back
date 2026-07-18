@@ -25,10 +25,6 @@
         }
       }
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "title"
-    },
     "description": {
       "type": "text",
       "required": true,
@@ -39,46 +35,14 @@
       }
     },
     "link": {
-      "type": "string"
-    },
-    "repository": {
-      "type": "string"
-    },
-    "role": {
       "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
+      "required": true
     },
-    "year": {
-      "type": "integer",
-      "min": 2000,
-      "max": 2100
+    "github": {
+      "type": "string"
     },
     "technologies": {
       "type": "json"
-    },
-    "status": {
-      "type": "enumeration",
-      "enum": ["active", "completed", "archived", "concept"]
-    },
-    "content": {
-      "type": "richtext",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "featured": {
-      "type": "boolean",
-      "default": false
-    },
-    "featuredOrder": {
-      "type": "integer",
-      "min": 0
     },
     "cover": {
       "type": "media",
